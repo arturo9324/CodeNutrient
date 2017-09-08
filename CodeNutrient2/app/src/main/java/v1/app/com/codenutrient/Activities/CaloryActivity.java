@@ -58,12 +58,12 @@ public class CaloryActivity extends AppCompatActivity {
         next = (ImageButton) findViewById(R.id.next_calory);
         graph = (LineChart) findViewById(R.id.calory_charts);
 
-        today = Calendar.getInstance();
         sunday_wek = Calendar.getInstance();
         saturday_wek = Calendar.getInstance();
+        today = Calendar.getInstance();
         min_date = Calendar.getInstance();
 
-        saturday_wek.roll(Calendar.DATE, -6);
+        saturday_wek.setTimeInMillis(saturday_wek.getTimeInMillis() - (86400000 * 6));
         manager = new HttpManager();
 
         DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
@@ -96,13 +96,13 @@ public class CaloryActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch(v.getId()){
                 case R.id.before_calory:
-                    sunday_wek.roll(Calendar.DATE, -7);
-                    saturday_wek.roll(Calendar.DATE, -7);
+                    sunday_wek.setTimeInMillis(sunday_wek.getTimeInMillis() - (86400000 * 7));
+                    saturday_wek.setTimeInMillis(saturday_wek.getTimeInMillis() - (86400000 * 7));
                     BeginRequests();
                     break;
                 case R.id.next_calory:
-                    sunday_wek.roll(Calendar.DATE, 7);
-                    saturday_wek.roll(Calendar.DATE, 7);
+                    sunday_wek.setTimeInMillis(sunday_wek.getTimeInMillis() + (86400000 * 7));
+                    saturday_wek.setTimeInMillis(saturday_wek.getTimeInMillis() + (86400000 * 7));
                     BeginRequests();
                     break;
             }
@@ -114,7 +114,7 @@ public class CaloryActivity extends AppCompatActivity {
     }
 
     private void CheckDate(){
-        if (saturday_wek.getTimeInMillis() >= today.getTimeInMillis() ){
+        if (sunday_wek.getTimeInMillis() >= today.getTimeInMillis() ){
             next.setOnClickListener(null);
             next.setAlpha(.5f);
         }else{
@@ -122,7 +122,7 @@ public class CaloryActivity extends AppCompatActivity {
             next.setAlpha(1f);
         }
 
-        if (sunday_wek.getTimeInMillis() <= min_date.getTimeInMillis()){
+        if (saturday_wek.getTimeInMillis() <= min_date.getTimeInMillis()){
             prev.setOnClickListener(null);
             prev.setAlpha(.5f);
         }else{
@@ -263,7 +263,7 @@ public class CaloryActivity extends AppCompatActivity {
                 }
                 if(Constants.isSameDay(aux, sunday_wek))
                     break;
-                aux.roll(Calendar.DATE, 1);
+                aux.setTimeInMillis(aux.getTimeInMillis() + (86400000));
             }while(true);
             return entities;
         }
@@ -339,7 +339,7 @@ public class CaloryActivity extends AppCompatActivity {
                 }
                 if(Constants.isSameDay(aux, sunday_wek))
                     break;
-                aux.roll(Calendar.DATE, 1);
+                aux.setTimeInMillis(aux.getTimeInMillis() + (86400000));
             }while(true);
             return entities;
         }

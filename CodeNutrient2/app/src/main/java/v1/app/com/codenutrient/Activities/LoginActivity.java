@@ -198,7 +198,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             appUser.setPhoto(account.getPhotoUrl());
             moveToMain(appUser);
         } else {
-<<<<<<< HEAD
             progressBar.setVisibility(View.INVISIBLE);
             image.setVisibility(View.VISIBLE);
             text.setVisibility(View.VISIBLE);
@@ -206,16 +205,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             signInButton.setEnabled(true);
              Log.d("ERROR APP 2", result.getStatus()+ "");
             Snackbar.make(findViewById(R.id.loginCoordinator),  "No se ha podido iniciar sesión", Snackbar.LENGTH_SHORT).show();
-=======
-             Log.e("ERROR", result.getStatus().toString());
-
-             progressBar.setVisibility(View.INVISIBLE);
-             image.setVisibility(View.VISIBLE);
-             text.setVisibility(View.VISIBLE);
-             signInButton.setVisibility(View.VISIBLE);
-             signInButton.setEnabled(true);
-             Snackbar.make(findViewById(R.id.loginCoordinator),  "No se ha podido iniciar sesión", Snackbar.LENGTH_SHORT).show();
->>>>>>> 8dd777890b10df5de265b554ab461dbd7c1230b4
         }
     }
 

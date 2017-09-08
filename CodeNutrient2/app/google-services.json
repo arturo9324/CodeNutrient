@@ -13,15 +13,7 @@
       },
       "oauth_client": [
         {
-<<<<<<< HEAD
           "client_id": "683084470739-qhk291dubktioqlk76t1mn322g3cprnp.apps.googleusercontent.com",
-=======
-          "client_id": "576289039227-mikr76ppcom4godc3vecadlg5c1a1th4.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "576289039227-7pg2urfkc1jt1uh7a43rih2p0jfpmjul.apps.googleusercontent.com",
->>>>>>> 8dd777890b10df5de265b554ab461dbd7c1230b4
           "client_type": 1,
           "android_info": {
             "package_name": "v1.app.com.codenutrient",
