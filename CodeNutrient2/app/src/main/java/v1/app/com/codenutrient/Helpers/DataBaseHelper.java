@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -197,7 +198,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor fetchStepsByType(String uid, String provider, int type, String fecha) {
-        Cursor cursor = myDatabase.rawQuery("SELECT SUM(steps) AS steps FROM Steps WHERE type = ? AND strftime('%Y-%m-%d', fecha) = ? AND user_id = (SELECT id FROM Users WHERE uid = ? AND provider = ?)  GROUP BY user_id", new String[]{"" + type, fecha, uid, provider});
+        Log.i("DATABASE", fecha);
+        Cursor cursor = myDatabase.rawQuery("SELECT SUM(steps) AS steps FROM Steps WHERE type = ? AND strftime('%Y-%m-%d', fecha) = ? AND user_id = 1  GROUP BY user_id", new String[]{"" + type, fecha});
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -205,7 +207,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor fetchCaloriesNotSended(int user_id) {
-        Cursor cursor = myDatabase.rawQuery("SELECT SUM(calories) AS calories, Date(datetime) AS fecha FROM CalorieHistory WHERE sended = 0 AND user_id = ? ORDER  BY fecha", new String[]{"" + user_id});
+        Cursor cursor = myDatabase.rawQuery("SELECT SUM(calories) AS calories, strftime('%Y-%m-%d', datetime) AS fecha FROM CalorieHistory WHERE sended = 0 AND user_id = ? ORDER  BY fecha", new String[]{"" + user_id});
         if (cursor != null) {
             cursor.moveToFirst();
         }

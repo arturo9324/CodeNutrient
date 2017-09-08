@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "683084470739",
-    "project_id": "firebase-codenutrient"
+    "project_number": "576289039227",
+    "project_id": "codenutrient"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:683084470739:android:7283a4bc07d21648",
+        "mobilesdk_app_id": "1:576289039227:android:7283a4bc07d21648",
         "android_client_info": {
           "package_name": "v1.app.com.codenutrient"
         }
       },
       "oauth_client": [
         {
-<<<<<<< HEAD
-          "client_id": "683084470739-qhk291dubktioqlk76t1mn322g3cprnp.apps.googleusercontent.com",
-=======
           "client_id": "576289039227-mikr76ppcom4godc3vecadlg5c1a1th4.apps.googleusercontent.com",
           "client_type": 3
         },
         {
-          "client_id": "576289039227-7pg2urfkc1jt1uh7a43rih2p0jfpmjul.apps.googleusercontent.com",
->>>>>>> 8dd777890b10df5de265b554ab461dbd7c1230b4
+          "client_id": "576289039227-gmv8oqh19g9sn8cf3ko63o563bme0en3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "v1.app.com.codenutrient",
-            "certificate_hash": "d2e39d534da96712a775b80b7850479b06fa03ab"
+            "certificate_hash": "3748cb54779e5d144f762acd27863b51737160e2"
           }
-        },
-        {
-          "client_id": "683084470739-an522fjt5vlp4j2m8l8agk97lb3kq9cl.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDevKdCaGzwhkedaGFlv7IFODCzP5luAsM"
+          "current_key": "AIzaSyChfPYpPnueIMmp9D4B0GR1BkGu8ofEDpw"
         }
       ],
       "services": {
