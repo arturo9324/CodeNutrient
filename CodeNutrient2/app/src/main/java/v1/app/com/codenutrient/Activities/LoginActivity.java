@@ -34,9 +34,9 @@ import v1.app.com.codenutrient.POJO.AppUser;
 import v1.app.com.codenutrient.R;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
-    private int RC_SIGN_IN;
+    public static int RC_SIGN_IN;
     public static GoogleApiClient googleApiClient;
-    private GoogleSignInOptions googleSignInOptions;
+    public static GoogleSignInOptions googleSignInOptions;
     public ImageView image;
     public ProgressBar progressBar;
     public SignInButton signInButton;
@@ -45,10 +45,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onCreate(Bundle saveState) {
         super.onCreate(saveState);
         setContentView(R.layout.activity_login);
-        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        LoginActivity.googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        googleApiClient = new GoogleApiClient.Builder(this)
+        LoginActivity.googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .build();

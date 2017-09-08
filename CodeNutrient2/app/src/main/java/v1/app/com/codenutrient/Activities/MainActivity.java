@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
@@ -36,7 +43,7 @@ import v1.app.com.codenutrient.R;
 import v1.app.com.codenutrient.Requests.Calories;
 import v1.app.com.codenutrient.Services.Pedometer;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener  {
     public static AppUser appUser;
     private int CAMERA_INTENT = 1;
     public Button calory;
@@ -92,26 +99,49 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void signIn() {
+        LoginActivity.googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        LoginActivity.googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, LoginActivity.googleSignInOptions)
+                .build();
+        startActivityForResult(Auth.GoogleSignInApi.getSignInIntent(LoginActivity.googleApiClient), LoginActivity.RC_SIGN_IN);
+    }
     private void signOut() {
-        Auth.GoogleSignInApi.signOut(LoginActivity.googleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
+        signIn();
+    }
 
-                        DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
-                        try {
-                            helper.openDataBaseReadWrite();
-                            helper.updateUsersStatus();
-                            helper.close();
-                            MainActivity.appUser = null;
-                            startActivity(intent);
-                            finish();
-                        } catch (SQLException e) {
-                            ShowErrorMessage("Ha ocurrido un error inesperado");
-                        }
-                    }
-                });
+    private void handleSignInResult(GoogleSignInResult result) throws SQLException {
+        if (result.isSuccess()) {
+            GoogleSignInAccount account = result.getSignInAccount();
+            LoginActivity.googleApiClient.connect();
+            OptionalPendingResult<GoogleSignInResult> optional = Auth.GoogleSignInApi.silentSignIn(LoginActivity.googleApiClient);
+            if (optional.isDone()) {
+                Auth.GoogleSignInApi.signOut(LoginActivity.googleApiClient).setResultCallback(
+                        new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(Status status) {
+                                Intent intent = new Intent().setClass(MainActivity.this, LoginActivity.class);
+
+                                DataBaseHelper helper = new DataBaseHelper(getApplicationContext());
+                                try {
+                                    helper.openDataBaseReadWrite();
+                                    helper.updateUsersStatus();
+                                    helper.close();
+                                    MainActivity.appUser = null;
+                                    startActivity(intent);
+                                    finish();
+                                } catch (SQLException e) {
+                                    ShowErrorMessage("Ha ocurrido un error inesperado");
+                                }
+                            }
+                        });
+            } else {
+                //ERROR
+            }
+        }
     }
 
     public void checkNSendCalories(){
@@ -363,6 +393,13 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(findViewById(R.id.main_coordinator), "No se ha obtenido ningun código", Snackbar.LENGTH_SHORT).show();
             }
         }
+        if (requestCode == LoginActivity.RC_SIGN_IN) {
+            try {
+                handleSignInResult(Auth.GoogleSignInApi.getSignInResultFromIntent(data));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -371,6 +408,11 @@ public class MainActivity extends AppCompatActivity {
         if (!isMyServiceRunning(service.getClass())){
             startService(mServiceIntent);
         }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 
     private class MyTaskUpdate extends AsyncTask<String, String, InfoAppUser>{

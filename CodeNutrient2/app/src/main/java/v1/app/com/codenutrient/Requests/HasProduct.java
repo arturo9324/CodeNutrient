@@ -1,5 +1,7 @@
 package v1.app.com.codenutrient.Requests;
 
+import android.util.Log;
+
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,6 +64,7 @@ public class HasProduct {
         }
         HttpManager manager = new HttpManager();
         Response response = manager.getData(requestPackage);
+        Log.d("Respuesta", response.response);
         return response.code;
     }
 }

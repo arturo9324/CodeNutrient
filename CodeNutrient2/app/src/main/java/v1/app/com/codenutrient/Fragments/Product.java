@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,6 +129,7 @@ public class Product extends Fragment {
             ArrayList<Nutrient> send_nutrients = new ArrayList<>();
             for (Nutrient nutrient: nutrients) {
                 nutrient.setCantidad(nutrient.getCantidad() * porcion);
+                Log.d("ERROR", nutrient.getNutrient_id() + " " + nutrient.getCantidad());
                 send_nutrients.add(nutrient);
             }
             send_product.setNutrients(send_nutrients);
