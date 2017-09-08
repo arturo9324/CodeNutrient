@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -110,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         signInButton.setEnabled(false);
+        Log.d("ERROR APP 1", connectionResult.getErrorMessage());
         Snackbar.make(findViewById(R.id.loginCoordinator), "No se ha podido iniciar sesión", Snackbar.LENGTH_SHORT).show();
     }
 
@@ -201,6 +203,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             text.setVisibility(View.VISIBLE);
             signInButton.setVisibility(View.VISIBLE);
             signInButton.setEnabled(true);
+             Log.d("ERROR APP 2", result.getStatus()+ "");
             Snackbar.make(findViewById(R.id.loginCoordinator),  "No se ha podido iniciar sesión", Snackbar.LENGTH_SHORT).show();
         }
     }
